@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import Resultado from './Resultado.js';
+import Usuarios from './Usuarios.js'
 
 class App extends Component {
 
   constructor(props){
     super(props);
     this.state = {
-      resultados: []
+      usuarios: [],
+      show : ''
     }
-    this.buscar = this.buscar.bind(this);
+    this.buscarUsuarios = this.buscarUsuarios.bind(this);
 }
-
+  /*
   buscar(articulo){
     fetch('https://api.mercadolibre.com/sites/MCO/search?q=' + articulo.target.value)
     .then(function(resultado){
@@ -20,18 +20,32 @@ class App extends Component {
     }).then((json)=>{
       this.setState({resultados:json.results})
     });
+  }*/
+
+  buscarUsuarios(id){
+    let show = '';
+    console.log(Usuarios)
+    for (let i in Usuarios) {
+      if (Usuarios[i].codigo == id.target.value) {
+
+        show = "El usuario con código " + Usuarios[i].codigo + " existe y su nombre es: " + Usuarios[i].nombre;
+        break;
+      } 
+      else {
+        show = "Usuario no encontrado";
+      }
+    }
+    this.setState({show : show});
   }
 
   render() {
     return (
       <div className="App">
         <div className="App-header">
-          <p> </p>
-          <input type="text" placeHolder="Texto" onChange = {this.buscar.bind(this)} onFocus = {this.value=""}/>
+          <p> Usuarios </p>
+          <input type="text" placeholder="Texto" onChange = {this.buscarUsuarios}/>
           {
-            this.state.resultados.map(function(resultado){
-              return <Resultado resultado = {resultado}/>
-            }) 
+            this.state.show
           }
         </div>
       </div>
